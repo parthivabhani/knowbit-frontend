@@ -31,7 +31,7 @@ interface CourseData {
   }>;
 }
 
-// Dynamically choose the API base URL depending on environment
+// Dynamically choose backend URL
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -78,7 +78,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       <Navbar />
 
       <main className="container mx-auto px-4 py-8">
@@ -87,19 +87,17 @@ const Index = () => {
           <>
             <div className="text-center py-16 animate-fade-in">
               <div className="mb-8">
-                <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-6 shadow-lg">
+                <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full mb-6 shadow-lg">
                   <GraduationCap className="w-10 h-10 text-white" />
                 </div>
-                <h1 className="text-5xl md:text-6xl font-bold text-slate-800 mb-6">
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    Personalized
-                  </span>
+                <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+                  <span className="text-blue-700">Personalized</span>
                   <br />
                   Mini-Courses on Any Topic
                 </h1>
-                <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                  Transform any subject into a structured, personalized learning journey. 
-                  Get AI-powered courses tailored to your learning style and pace.
+                <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                  Turn any subject into a structured learning plan. 
+                  Get AI-powered courses tailored just for you.
                 </p>
               </div>
 
@@ -110,29 +108,32 @@ const Index = () => {
               <div className="grid md:grid-cols-3 gap-8">
                 {[
                   {
-                    icon: <Sparkles className="w-6 h-6 text-blue-500" />,
+                    icon: <Sparkles className="w-6 h-6 text-cyan-600" />,
                     title: "AI-Powered",
-                    description: "Advanced algorithms create personalized learning paths",
+                    description: "Smartly designed courses built from your topic instantly.",
                   },
                   {
-                    icon: <GraduationCap className="w-6 h-6 text-purple-500" />,
+                    icon: <GraduationCap className="w-6 h-6 text-blue-600" />,
                     title: "Structured Learning",
-                    description: "Day-by-day breakdown with clear goals and exercises",
+                    description: "Clear goals, key concepts, and practice plans each day.",
                   },
                   {
-                    icon: <Sparkles className="w-6 h-6 text-blue-500" />,
+                    icon: <Sparkles className="w-6 h-6 text-cyan-600" />,
                     title: "Resource Rich",
-                    description: "Curated materials from the best sources on the web",
+                    description: "Curated materials and links to enhance your understanding.",
                   },
                 ].map((feature, index) => (
-                  <div key={index} className="text-center card-gradient p-6">
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-slate-100 rounded-lg mb-4">
+                  <div
+                    key={index}
+                    className="text-center bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300"
+                  >
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-slate-100 rounded-xl mb-4">
                       {feature.icon}
                     </div>
-                    <h3 className="text-xl font-semibold text-slate-800 mb-2">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
                       {feature.title}
                     </h3>
-                    <p className="text-slate-600">{feature.description}</p>
+                    <p className="text-gray-600">{feature.description}</p>
                   </div>
                 ))}
               </div>
