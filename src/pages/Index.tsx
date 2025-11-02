@@ -187,7 +187,7 @@ const Index = () => {
     Have questions, feedback, or ideas? We’d love to hear from you.
   </p>
   <a
-    href="mailto:team@knowbit.com"
+    href="mailto:thesociosphere@gmail.com"
     className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition-all duration-200"
   >
     Send us an Email
