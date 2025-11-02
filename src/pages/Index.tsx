@@ -31,6 +31,10 @@ interface CourseData {
   }>;
 }
 
+// Dynamically choose the API base URL depending on environment
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 const Index = () => {
   const [courseData, setCourseData] = useState<CourseData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +47,7 @@ const Index = () => {
     setCurrentTopic(topic);
 
     try {
-      const response = await fetch("http://localhost:5000/generate-course", {
+      const response = await fetch(`${API_BASE_URL}/generate-course`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic }),
