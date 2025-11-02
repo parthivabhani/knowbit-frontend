@@ -43,7 +43,7 @@ const Index = () => {
     setCurrentTopic(topic);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/generate-course`, {
+      const response = await fetch("http://localhost:5000/generate-course", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic }),
@@ -78,6 +78,7 @@ const Index = () => {
       <Navbar />
 
       <main className="container mx-auto px-4 py-8">
+        {/* Initial Landing View */}
         {!courseData && !isLoading && !error && (
           <>
             <div className="text-center py-16 animate-fade-in">
@@ -135,9 +136,11 @@ const Index = () => {
           </>
         )}
 
+        {/* Loading and Error States */}
         {isLoading && <LoadingState />}
         {error && <ErrorState onRetry={handleRetry} />}
 
+        {/* Generated Course Display */}
         {courseData && (
           <div className="space-y-12">
             <div className="text-center">
@@ -149,10 +152,15 @@ const Index = () => {
               </button>
             </div>
 
-            <CourseOverview course={courseData} />
-            <DayTimeline days={courseData.days} />
-            <ResourceList resources={courseData.resources} />
-            <PDFExport courseTitle={courseData.title} />
+            {/* This section will be captured in the PDF */}
+            <div id="course-content">
+              <CourseOverview course={courseData} />
+              <DayTimeline days={courseData.days} />
+              <ResourceList resources={courseData.resources} />
+            </div>
+
+            {/* PDF Export Button */}
+            <PDFExport courseData={courseData} />
           </div>
         )}
       </main>
