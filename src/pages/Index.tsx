@@ -170,6 +170,31 @@ const Index = () => {
         )}
       </main>
 
+      {/* About Section */}
+<section id="about" className="py-16 bg-gray-50 text-center">
+  <h2 className="text-3xl font-bold text-slate-800 mb-4">About Knowbit</h2>
+  <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+    Knowbit is your AI-powered learning companion that transforms any topic into a structured mini-course. 
+    Our goal is to make self-learning simple, efficient, and enjoyable — helping you master new skills 
+    faster with daily goals, exercises, and curated resources.
+  </p>
+</section>
+
+{/* Contact Section */}
+<section id="contact" className="py-16 text-center">
+  <h2 className="text-3xl font-bold text-slate-800 mb-4">Contact Us</h2>
+  <p className="text-lg text-slate-600 mb-6">
+    Have questions, feedback, or ideas? We’d love to hear from you.
+  </p>
+  <a
+    href="mailto:team@knowbit.com"
+    className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition-all duration-200"
+  >
+    Send us an Email
+  </a>
+</section>
+
+
       <Footer />
     </div>
   );
