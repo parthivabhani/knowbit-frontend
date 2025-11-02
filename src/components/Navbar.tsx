@@ -14,7 +14,7 @@ const Navbar = () => {
         <div className="flex items-center space-x-2">
           <img src="/K.png" alt="KnowBit Logo" className="w-8 h-8" />
           <span className="text-2xl font-bold text-black">
-            Knowbit
+            KnowBit.
           </span>
         </div>
         
