@@ -64,116 +64,136 @@ const PDFExport = ({ courseData }: PDFExportProps) => {
       doc.text("Course Summary:", MARGIN, y);
       doc.setFont(undefined, "normal");
       y += 5;
+
       const splitSummary = doc.splitTextToSize(courseData.summary, 190 - 2 * MARGIN);
-      doc.text(splitSummary, MARGIN, y);
-      y += splitSummary.length * 6 + 10;
-
-      // 5-Day Plan with notes
-      courseData.days.forEach((day, index) => {
-        const lineHeight = 6;
-        const sectionSpacing = 4;
-        const bulletHeight = 7;
-        const paddingBottom = 4;
-        const extraGoalSpacing = 4;
-
-        const goalsHeight = day.goals.length * bulletHeight + lineHeight + sectionSpacing;
-        const conceptsHeight = day.concepts.length * bulletHeight + lineHeight + sectionSpacing;
-        const exercisesHeight = day.exercises.length * bulletHeight + lineHeight + sectionSpacing;
-        const notesHeight = day.notes ? doc.splitTextToSize(day.notes, 190 - 2 * MARGIN).length * 5 + 5 : 0;
-        const dayHeaderHeight = 12;
-
-        const totalDayHeight =
-          dayHeaderHeight + goalsHeight + conceptsHeight + exercisesHeight + notesHeight + paddingBottom + extraGoalSpacing;
-
-        if (y + totalDayHeight > PAGE_HEIGHT - MARGIN) {
+      splitSummary.forEach((line) => {
+        if (y + 6 > PAGE_HEIGHT - MARGIN) {
           doc.addPage();
           y = MARGIN;
         }
+        doc.text(line, MARGIN, y);
+        y += 6;
+      });
+      y += 10;
 
-        // Alternating background
-        doc.setFillColor(index % 2 === 0 ? 240 : 255, index % 2 === 0 ? 240 : 255, index % 2 === 0 ? 240 : 255);
-        doc.rect(MARGIN, y - 2, 210 - 2 * MARGIN, totalDayHeight, "F");
+      // 5-Day Plan with proper wrapping
+      courseData.days.forEach((day) => {
+        const sectionSpacing = 4;
+        const bulletHeight = 6;
 
         // Day header
-        doc.setFillColor(0, 102, 204);
-        doc.rect(MARGIN + 4, y, 202 - 2 * MARGIN, 8, "F");
+        if (y + 12 > PAGE_HEIGHT - MARGIN) {
+          doc.addPage();
+          y = MARGIN;
+        }
         doc.setFont(undefined, "bold");
         doc.setFontSize(14);
-        doc.setTextColor(255, 255, 255);
-        doc.text(`Day ${day.day}: ${day.title}`, MARGIN + 6, y + 6);
-        y += dayHeaderHeight + extraGoalSpacing;
+        doc.setTextColor(0, 51, 102);
+        doc.text(`Day ${day.day}: ${day.title}`, MARGIN, y);
+        y += 8;
 
         // Goals
         doc.setFont(undefined, "bold");
         doc.setFontSize(12);
-        doc.setTextColor(0, 51, 102);
-        doc.text("Goals:", MARGIN + 4, y);
+        doc.text("Goals:", MARGIN, y);
+        y += 6;
         doc.setFont(undefined, "normal");
         doc.setFontSize(13);
-        y += 6;
+
         day.goals.forEach((goal) => {
-          doc.circle(MARGIN + 6, y - 2, 1.5, "F");
-          doc.text(goal, MARGIN + 10, y);
-          y += bulletHeight;
+          const lines = doc.splitTextToSize(goal, 190 - 2 * MARGIN - 6);
+          if (y + lines.length * bulletHeight > PAGE_HEIGHT - MARGIN) {
+            doc.addPage();
+            y = MARGIN;
+          }
+          doc.circle(MARGIN + 2, y - 2, 1.5, "F");
+          lines.forEach((line) => {
+            doc.text(line, MARGIN + 6, y);
+            y += bulletHeight;
+          });
+          y += 2;
         });
-        y += 4;
+        y += sectionSpacing;
 
         // Concepts
         doc.setFont(undefined, "bold");
         doc.setFontSize(12);
-        doc.text("Key Concepts:", MARGIN + 4, y);
+        doc.text("Key Concepts:", MARGIN, y);
+        y += 6;
         doc.setFont(undefined, "normal");
         doc.setFontSize(13);
-        y += 6;
+
         day.concepts.forEach((concept) => {
-          doc.circle(MARGIN + 6, y - 2, 1.5, "F");
-          doc.text(concept, MARGIN + 10, y);
-          y += bulletHeight;
+          const lines = doc.splitTextToSize(concept, 190 - 2 * MARGIN - 6);
+          if (y + lines.length * bulletHeight > PAGE_HEIGHT - MARGIN) {
+            doc.addPage();
+            y = MARGIN;
+          }
+          doc.circle(MARGIN + 2, y - 2, 1.5, "F");
+          lines.forEach((line) => {
+            doc.text(line, MARGIN + 6, y);
+            y += bulletHeight;
+          });
+          y += 2;
         });
-        y += 4;
+        y += sectionSpacing;
 
         // Exercises
         doc.setFont(undefined, "bold");
         doc.setFontSize(12);
-        doc.text("Exercises:", MARGIN + 4, y);
+        doc.text("Exercises:", MARGIN, y);
+        y += 6;
         doc.setFont(undefined, "normal");
         doc.setFontSize(13);
-        y += 6;
+
         day.exercises.forEach((ex) => {
-          if (y + bulletHeight > PAGE_HEIGHT - MARGIN) {
+          const lines = doc.splitTextToSize(ex, 190 - 2 * MARGIN - 6);
+          if (y + lines.length * bulletHeight > PAGE_HEIGHT - MARGIN) {
             doc.addPage();
-            y = MARGIN + 6;
+            y = MARGIN;
           }
-          doc.circle(MARGIN + 6, y - 2, 1.5, "F");
-          doc.text(ex, MARGIN + 10, y);
-          y += bulletHeight;
+          doc.circle(MARGIN + 2, y - 2, 1.5, "F");
+          lines.forEach((line) => {
+            doc.text(line, MARGIN + 6, y);
+            y += bulletHeight;
+          });
+          y += 2;
         });
-        y += 4;
+        y += sectionSpacing;
 
         // Notes
         if (day.notes) {
           doc.setFont(undefined, "bold");
           doc.setFontSize(12);
           doc.setTextColor(0, 51, 102);
-          doc.text("Notes:", MARGIN + 4, y);
+          doc.text("Notes:", MARGIN, y);
+          y += 6;
           doc.setFont(undefined, "normal");
           doc.setFontSize(12);
-          y += 6;
-          const splitNotes = doc.splitTextToSize(day.notes, 190 - 2 * MARGIN);
-          doc.text(splitNotes, MARGIN + 6, y);
-          y += splitNotes.length * 5 + 4;
+          const noteLines = doc.splitTextToSize(day.notes, 190 - 2 * MARGIN);
+          noteLines.forEach((line) => {
+            if (y + 6 > PAGE_HEIGHT - MARGIN) {
+              doc.addPage();
+              y = MARGIN;
+            }
+            doc.text(line, MARGIN, y);
+            y += 6;
+          });
+          y += sectionSpacing;
         }
 
         // Horizontal separator
         doc.setDrawColor(180, 180, 180);
         doc.setLineWidth(0.4);
+        if (y + 2 > PAGE_HEIGHT - MARGIN) {
+          doc.addPage();
+          y = MARGIN;
+        }
         doc.line(MARGIN, y + 2, 210 - MARGIN, y + 2);
-
         y += 8;
       });
 
       // Resources
-      y += 6;
       doc.setFont(undefined, "bold");
       doc.setFontSize(14);
       doc.setTextColor(0, 102, 204);
@@ -181,24 +201,32 @@ const PDFExport = ({ courseData }: PDFExportProps) => {
         doc.addPage();
         y = MARGIN;
       }
-      doc.text("Resources:", MARGIN + 4, y);
+      doc.text("Resources:", MARGIN, y);
+      y += 6;
       doc.setFont(undefined, "normal");
       doc.setFontSize(12);
-      y += 6;
 
       courseData.resources.forEach((res) => {
-        if (y + 10 > PAGE_HEIGHT - MARGIN) {
+        const lines = doc.splitTextToSize(`${res.title} (${res.type})`, 190 - 2 * MARGIN);
+        if (y + lines.length * 5 > PAGE_HEIGHT - MARGIN) {
           doc.addPage();
           y = MARGIN;
         }
         doc.setTextColor(0, 51, 153);
-        doc.textWithLink(`${res.title} (${res.type})`, MARGIN + 4, y, { url: res.url });
+        doc.textWithLink(`${res.title} (${res.type})`, MARGIN, y, { url: res.url });
         y += 5;
+
         if (res.description) {
+          const descLines = doc.splitTextToSize(res.description, 190 - 2 * MARGIN);
           doc.setTextColor(0, 0, 0);
-          const splitDesc = doc.splitTextToSize(res.description, 190 - 2 * MARGIN);
-          doc.text(splitDesc, MARGIN + 8, y);
-          y += splitDesc.length * 5;
+          descLines.forEach((line) => {
+            if (y + 5 > PAGE_HEIGHT - MARGIN) {
+              doc.addPage();
+              y = MARGIN;
+            }
+            doc.text(line, MARGIN + 4, y);
+            y += 5;
+          });
         }
         y += 5;
       });
