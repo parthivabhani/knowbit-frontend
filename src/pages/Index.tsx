@@ -172,9 +172,9 @@ const Index = () => {
 
       {/* About Section */}
 <section id="about" className="py-16 bg-gray-50 text-center">
-  <h2 className="text-3xl font-bold text-slate-800 mb-4">About Knowbit</h2>
+  <h2 className="text-3xl font-bold text-slate-800 mb-4">About KnowBit</h2>
   <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-    Knowbit is your AI-powered learning companion that transforms any topic into a structured mini-course. 
+    KnowBit is your AI-powered learning companion that transforms any topic into a structured mini-course. 
     Our goal is to make self-learning simple, efficient, and enjoyable — helping you master new skills 
     faster with daily goals, exercises, and curated resources.
   </p>
