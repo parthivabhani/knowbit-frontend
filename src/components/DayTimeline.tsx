@@ -15,7 +15,7 @@ interface DayTimelineProps {
 
 const DayTimeline = ({ days }: DayTimelineProps) => {
   return (
-    <div className="animate-slide-up">
+    <div className="animate-slide-up"> <br>
       <h2 className="text-2xl font-bold text-slate-800 mb-8 text-center">
        Learning Journey
       </h2>
