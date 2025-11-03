@@ -16,6 +16,7 @@ interface PDFExportProps {
       goals: string[];
       concepts: string[];
       exercises: string[];
+      notes?: string;
     }>;
     resources: Array<{
       title: string;
@@ -67,20 +68,22 @@ const PDFExport = ({ courseData }: PDFExportProps) => {
       doc.text(splitSummary, MARGIN, y);
       y += splitSummary.length * 6 + 10;
 
-      // 5-Day Plan
+      // 5-Day Plan with notes
       courseData.days.forEach((day, index) => {
         const lineHeight = 6;
         const sectionSpacing = 4;
         const bulletHeight = 7;
-        const paddingBottom = 4; // reduced to give breathing room
-        const extraGoalSpacing = 4; // space between day header and goals
+        const paddingBottom = 4;
+        const extraGoalSpacing = 4;
 
         const goalsHeight = day.goals.length * bulletHeight + lineHeight + sectionSpacing;
         const conceptsHeight = day.concepts.length * bulletHeight + lineHeight + sectionSpacing;
         const exercisesHeight = day.exercises.length * bulletHeight + lineHeight + sectionSpacing;
+        const notesHeight = day.notes ? doc.splitTextToSize(day.notes, 190 - 2 * MARGIN).length * 5 + 5 : 0;
         const dayHeaderHeight = 12;
 
-        const totalDayHeight = dayHeaderHeight + goalsHeight + conceptsHeight + exercisesHeight + paddingBottom + extraGoalSpacing;
+        const totalDayHeight =
+          dayHeaderHeight + goalsHeight + conceptsHeight + exercisesHeight + notesHeight + paddingBottom + extraGoalSpacing;
 
         if (y + totalDayHeight > PAGE_HEIGHT - MARGIN) {
           doc.addPage();
@@ -145,21 +148,32 @@ const PDFExport = ({ courseData }: PDFExportProps) => {
           doc.text(ex, MARGIN + 10, y);
           y += bulletHeight;
         });
+        y += 4;
 
-        y += paddingBottom;
+        // Notes
+        if (day.notes) {
+          doc.setFont(undefined, "bold");
+          doc.setFontSize(12);
+          doc.setTextColor(0, 51, 102);
+          doc.text("Notes:", MARGIN + 4, y);
+          doc.setFont(undefined, "normal");
+          doc.setFontSize(12);
+          y += 6;
+          const splitNotes = doc.splitTextToSize(day.notes, 190 - 2 * MARGIN);
+          doc.text(splitNotes, MARGIN + 6, y);
+          y += splitNotes.length * 5 + 4;
+        }
 
-        // Horizontal separator outside the gray box
-        doc.setDrawColor(180, 180, 180); // slightly darker for better visibility
+        // Horizontal separator
+        doc.setDrawColor(180, 180, 180);
         doc.setLineWidth(0.4);
         doc.line(MARGIN, y + 2, 210 - MARGIN, y + 2);
 
-        y += 8; // extra space after separator before next day
+        y += 8;
       });
 
-      // Add breathing space before resources
-      y += 6;
-
       // Resources
+      y += 6;
       doc.setFont(undefined, "bold");
       doc.setFontSize(14);
       doc.setTextColor(0, 102, 204);
