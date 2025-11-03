@@ -17,7 +17,7 @@ const DayTimeline = ({ days }: DayTimelineProps) => {
   return (
     <div className="animate-slide-up">
       <h2 className="text-2xl font-bold text-slate-800 mb-8 text-center">
-        Learning Journey
+       <br>Learning Journey</br> 
       </h2>
 
       <div className="relative">
