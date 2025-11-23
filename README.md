@@ -12,6 +12,7 @@ Perfect for quick learning, micro-courses, and educational exploration.
 
 
 🚀 Features
+
 🔹 AI-Generated Course Structure
 Enter any topic (e.g., Machine Learning, UI/UX, Python Basics), and Knowbit generates a full 5-day curriculum.
 
@@ -41,7 +42,9 @@ Built with:
 - Normalizes/cleans the JSON
 - Handles fallbacks
 
+
 📁 Tech Stack
+
 Frontend:
 - React (Vite)
 - TypeScript
