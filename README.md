@@ -56,11 +56,9 @@ Backend:
 - Node.js
 - Express
 - Google Generative AI (Gemini)
+- CORS + dotenv
 
-CORS + dotenv
+Deployment:
 
-Deployment
-
-Frontend: Vercel
-
-Backend: Render / Vercel Serverless / Railway
+- Frontend: Vercel (https://knowbit-frontend.vercel.app/)
+- Backend: Render (https://knowbit-backend.onrender.com/)
